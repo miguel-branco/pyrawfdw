@@ -31,7 +31,7 @@ if not hasattr(sys, 'argv'):    # Required to run through testcases
 
 from multicorn import ForeignDataWrapper
 #from multicorn.utils import log_to_postgres
-from pyrawcore.common import load
+from pyrawcore.core import load
 
 
 class RawForeignDataWrapper(ForeignDataWrapper):
