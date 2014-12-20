@@ -46,7 +46,7 @@ class RawForeignDataWrapper(ForeignDataWrapper):
 
     def __init__(self, options, columns):
         super(RawForeignDataWrapper, self).__init__(options, columns)
-        with open(os.path.join(resource_path, options['path']), 'r') as f:
+        with open(os.path.join(resource_path, options['resource_id']), 'r') as f:
             payload = json.load(f)
         self.table = load(payload)
         #log_to_postgres(str(options['path']))
