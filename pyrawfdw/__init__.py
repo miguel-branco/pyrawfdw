@@ -25,20 +25,28 @@
 # SOFTWARE.
 #
 import json
+import os
 import sys
-if not hasattr(sys, 'argv'):    # Required to run through testcases
+
+if not hasattr(sys, 'argv'):    # Required by the testcases
     sys.argv = ['python']
 
 from multicorn import ForeignDataWrapper
 #from multicorn.utils import log_to_postgres
-from pyrawcore.core import load
+from pyrawcore.core import get_option, load
+
+
+resource_path = get_option('sql', 'resource_path')
+if not resource_path:
+    import tempfile
+    resource_path = os.path.realpath(tempfile.gettempdir())
 
 
 class RawForeignDataWrapper(ForeignDataWrapper):
 
     def __init__(self, options, columns):
         super(RawForeignDataWrapper, self).__init__(options, columns)
-        with open(options['path'], 'r') as f:
+        with open(os.path.join(resource_path, options['path']), 'r') as f:
             payload = json.load(f)
         self.table = load(payload)
         #log_to_postgres(str(options['path']))
